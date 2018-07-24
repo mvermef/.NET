@@ -13,7 +13,6 @@ namespace Github.Models
         {
         }
 
-        public DbSet<Github.Models.gitd> gitd { get; set; }
         public DbSet<gitd> Gitd { get; set; }
     }
 }

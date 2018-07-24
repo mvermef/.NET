@@ -13,12 +13,10 @@ namespace Github.Models
         public string Name { get; set; }
         public decimal Score { get; set; }
         public DateTime Updatedat { get; set; }
-        
+    }
 
-    }
-    
-    public class GitJSON
+    public class GitViewModel
     {
-        public List<gitd> gitdList { set; get; }
+        public List<gitd> Data { get; set; }
     }
-}  
+}

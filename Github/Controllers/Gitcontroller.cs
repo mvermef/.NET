@@ -6,8 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-
-
+using Newtonsoft.Json;
 
 namespace Github.Controllers
 {
@@ -27,22 +26,28 @@ namespace Github.Controllers
         }
         //gitds/Update
         [HttpPost]
-         public IActionResult Updateto([FromBody] GitJSON gitjson)
+        [ValidateAntiForgeryToken]
+         public async Task<IActionResult> Updateto(string Json)   //just string data...
         {
             
             try
             {
                 if (ModelState.IsValid)
                 {
-                    _context.AddRange(gitjson.gitdList);
-                   _context.SaveChanges();//adding list to table.
+                    var data = JsonConvert.DeserializeObject<List<gitd>>(Json); //Convert from JSON to object...
+
+                    await _context.AddRangeAsync(data);
+                    _context.SaveChanges();//adding list to table.
+
+                    
                 }
-                return View();
+                return Ok(); //RESPONSE
+
             }
             catch (Exception ex)
             {
-                
-                   return RedirectToPage("Error", ex);
+               
+                return BadRequest(ex); //ERROR RESPONSE
                 
             }
         }
